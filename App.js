@@ -16,6 +16,7 @@ var operator = 0;
 var result = 0;
 
 var dotHandler = 0;
+var isDivideZero = false;
 
 const one = document.createElement('button');
 const two = document.createElement('button');
@@ -227,18 +228,74 @@ dot.addEventListener('click', () => {
 });
 
 
-
 plusButton.addEventListener('click', () => {
-    operator = "+";
-    calc_formula.innerText = operand1 + " " + operator;
+    if(operand1 == 0)
+    {}    
+    else if(operator == 0)
+    {
+        operator = "+";
+        calc_formula.innerText += " + ";
+    }
+    else if(operand2 == 0)
+    {}
+    else
+    {
+        calc_formula.innerText += " + ";
+        result = operand1 + operand2;
+        operand1 = result;
+        operand2 = 0;
+        operator = "+";
+        result = 0;
+        dotHandler = 0;        
+        calc_display.value = operand1;
+    }
+    console.log(operand1, operator, operand2);
 });
 minusButton.addEventListener('click', () => {
-    operator = "-";
-    calc_formula.innerText = operand1 + " " + operator;
+    if(operand1 == 0)
+    {}    
+    else if(operator == 0)
+    {
+        operator = "-";
+        calc_formula.innerText += " - ";
+    }
+    else if(operand2 == 0)
+    {}
+    else
+    {
+        calc_formula.innerText += " - ";
+        result = operand1 - operand2;
+        operand1 = result;
+        operand2 = 0;
+        operator = "-";
+        result = 0;
+        dotHandler = 0;        
+        calc_display.value = operand1;
+    }
+    console.log(operand1, operator, operand2);
 });
 multiplyButton.addEventListener('click', () => {
-    operator = "*";
-    calc_formula.innerText = operand1 + " " + operator;
+    if(operand1 == 0)
+    {}    
+    else if(operator == 0)
+    {
+        operator = "*";
+        calc_formula.innerText += " * ";
+    }
+    else if(operand2 == 0)
+    {}
+    else
+    {
+        calc_formula.innerText += " * ";
+        result = operand1 * operand2;
+        operand1 = result;
+        operand2 = 0;
+        operator = "*";
+        result = 0;
+        dotHandler = 0;        
+        calc_display.value = operand1;
+    }
+    console.log(operand1, operator, operand2);
 });
 divideButton.addEventListener('click', () => {
     operator = "/";
@@ -275,7 +332,23 @@ resultButton.addEventListener('click', () => {
         alert("calculation error");
     }
 
-    calc_formula.innerText = operand1 + " " + operator + " " + operand2 + "=";
+    calc_formula.innerText = operand1 + " " + operator + " " + operand2 + " =";
     calc_display.value = result;
+    operand1 = result;
+    operand2 = 0;
+    operator = 0;
+    result = 0;
+    dotHandler = 0;
 
 });
+clearButton.addEventListener('click', () => {
+    operand1 = 0;
+    operand2 = 0;
+    operator = 0;
+    result = 0;
+
+    dotHandler = 0;
+
+    calc_display.value = '';
+    calc_formula.innerHTML = '';
+})
