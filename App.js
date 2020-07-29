@@ -10,13 +10,23 @@ calc_formula.id = "formula";
 calc_display.id = "display";
 
 
-var operand1 = 0;
-var operand2 = 0;
-var operator = 0;
+var operand1 = null;
+var operand2 = null;
+var operator = null;
 var result = 0;
 
 var dotHandler = 0;
-var isDivideZero = false;
+var isOperand2Modified = false;
+
+function initVar()
+{
+    operand1 = null;
+    operand2 = null;
+    operator = null;
+    result = 0;
+
+    dotHandler = 0;
+}
 
 const one = document.createElement('button');
 const two = document.createElement('button');
@@ -118,7 +128,7 @@ function numberAddEventListener(numberBtn, number)
     numberBtn.addEventListener('click', () => {
         if(dotHandler == 0)
         {
-            if(operator == 0)
+            if(operator == null)
             {
                 operand1 = operand1 * 10 + number;
                 calc_display.value = operand1;
@@ -128,7 +138,7 @@ function numberAddEventListener(numberBtn, number)
             {
                 operand2 = operand2 * 10 + number;
                 calc_display.value = operand2;
-                calc_formula.innerHTML = operand1 + " " + operator + " "+ operand2;
+                calc_formula.innerHTML += operand2;
             }
         }
         else
@@ -138,7 +148,7 @@ function numberAddEventListener(numberBtn, number)
             {
                 i = i/10;
             }
-            if(operator == 0)
+            if(operator == null)
             {
                 operand1 = operand1 + i;
                 calc_display.value = operand1;
@@ -148,7 +158,7 @@ function numberAddEventListener(numberBtn, number)
             {
                 operand2 = operand2 + i;
                 calc_display.value = operand2;
-                calc_formula.innerHTML = operand1 + " " + operator + " "+ operand2;
+                calc_formula.innerHTML +=  operand2;
             }
             dotHandler++;
             console.log(dotHandler);
@@ -214,7 +224,7 @@ dot.addEventListener('click', () => {
     if(dotHandler == 0)
     {
         dotHandler++;
-        if(operator == 0)
+        if(operator == null)
         {
             calc_display.value = operand1 + ".";
             calc_formula.innerHTML = operand1 + ".";
@@ -229,21 +239,24 @@ dot.addEventListener('click', () => {
 
 
 plusButton.addEventListener('click', () => {
-    if(operand1 == 0)
+    if(operand1 == null)
     {}    
-    else if(operator == 0)
+    else if(operator == null)
     {
         operator = "+";
         calc_formula.innerText += " + ";
     }
-    else if(operand2 == 0)
-    {}
+    else if(operand2 == null)
+    {
+        operator = "+";
+        calc_formula.innerText = calc_formula.innerText.substring(0, calc_formula.innerText.length - 1) + " + ";
+    }
     else
     {
+        getResult();
         calc_formula.innerText += " + ";
-        result = operand1 + operand2;
         operand1 = result;
-        operand2 = 0;
+        operand2 = null;
         operator = "+";
         result = 0;
         dotHandler = 0;        
@@ -252,21 +265,24 @@ plusButton.addEventListener('click', () => {
     console.log(operand1, operator, operand2);
 });
 minusButton.addEventListener('click', () => {
-    if(operand1 == 0)
+    if(operand1 == null)
     {}    
-    else if(operator == 0)
+    else if(operator == null)
     {
         operator = "-";
         calc_formula.innerText += " - ";
     }
-    else if(operand2 == 0)
-    {}
+    else if(operand2 == null)
+    {
+        operator = "-";
+        calc_formula.innerText = calc_formula.innerText.substring(0, calc_formula.innerText.length - 1) + " - ";
+    }
     else
     {
+        getResult();
         calc_formula.innerText += " - ";
-        result = operand1 - operand2;
         operand1 = result;
-        operand2 = 0;
+        operand2 = null;
         operator = "-";
         result = 0;
         dotHandler = 0;        
@@ -275,21 +291,24 @@ minusButton.addEventListener('click', () => {
     console.log(operand1, operator, operand2);
 });
 multiplyButton.addEventListener('click', () => {
-    if(operand1 == 0)
+    if(operand1 == null)
     {}    
-    else if(operator == 0)
+    else if(operator == null)
     {
         operator = "*";
         calc_formula.innerText += " * ";
     }
-    else if(operand2 == 0)
-    {}
+    else if(operand2 == null)
+    {
+        operator = "*";
+        calc_formula.innerText = calc_formula.innerText.substring(0, calc_formula.innerText.length - 1) + " * ";
+    }
     else
     {
+        getResult();
         calc_formula.innerText += " * ";
-        result = operand1 * operand2;
         operand1 = result;
-        operand2 = 0;
+        operand2 = null;
         operator = "*";
         result = 0;
         dotHandler = 0;        
@@ -298,10 +317,40 @@ multiplyButton.addEventListener('click', () => {
     console.log(operand1, operator, operand2);
 });
 divideButton.addEventListener('click', () => {
-    operator = "/";
-    calc_formula.innerText = operand1 + " " + operator;
+    if(operand1 == null)
+    {}    
+    else if(operator == null)
+    {
+        operator = "/";
+        calc_formula.innerText += " / ";
+    }
+    else if(operand2 == null)
+    {
+        operator = "/";
+        calc_formula.innerText = calc_formula.innerText.substring(0, calc_formula.innerText.length - 1) + " / ";
+    }
+    else if(operand2 == 0)
+    {
+        alert("cannot divide by 0");
+    }
+    else
+    {
+        getResult();
+        calc_formula.innerText += " / ";
+        operand1 = result;
+        operand2 = null;
+        operator = "/";
+        result = 0;
+        dotHandler = 0;        
+        calc_display.value = operand1;
+    }
+    console.log(operand2);
+
+
 });
-resultButton.addEventListener('click', () => {
+
+function getResult()
+{
     if(operator == "+")
     {
         result = operand1 + operand2;
@@ -325,29 +374,25 @@ resultButton.addEventListener('click', () => {
             result = operand1 / operand2;
         }
     }
-    else if(operator == 0)
+    else if(operator == null)
     {}
     else
     {
         alert("calculation error");
     }
+}
+
+resultButton.addEventListener('click', () => {
+    getResult();
 
     calc_formula.innerText = operand1 + " " + operator + " " + operand2 + " =";
     calc_display.value = result;
+    initVar();
     operand1 = result;
-    operand2 = 0;
-    operator = 0;
-    result = 0;
-    dotHandler = 0;
 
 });
 clearButton.addEventListener('click', () => {
-    operand1 = 0;
-    operand2 = 0;
-    operator = 0;
-    result = 0;
-
-    dotHandler = 0;
+    initVar();
 
     calc_display.value = '';
     calc_formula.innerHTML = '';
