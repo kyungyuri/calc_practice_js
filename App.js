@@ -397,3 +397,75 @@ clearButton.addEventListener('click', () => {
     calc_display.value = '';
     calc_formula.innerHTML = '';
 })
+
+window.addEventListener('keypress', function (e){
+    if(e.key == '1')
+    {
+        one.click();
+    }
+    else if(e.key == '2')
+    {
+        two.click();
+    }
+    else if(e.key == '3')
+    {
+        three.click();
+    }
+    else if(e.key == '4')
+    {
+        four.click();
+    }
+    else if(e.key == '5')
+    {
+        five.click();
+    }
+    else if(e.key == '6')
+    {
+        six.click();
+    }
+    else if(e.key == '7')
+    {
+        seven.click();
+    }
+    else if(e.key == '8')
+    {
+        eight.click();
+    }
+    else if(e.key == '9')
+    {
+        nine.click();
+    }
+    else if(e.key == '0')
+    {
+        zero.click();
+    }
+    else if(e.key == '.')
+    {
+        dot.click();
+    }
+    else if(e.key == '+')
+    {
+        plusButton.click();
+    }
+    else if(e.key == '-')
+    {
+        minusButton.click();
+    }
+    else if(e.key == '*')
+    {
+        multiplyButton.click();
+    }
+    else if(e.key == '/')
+    {
+        divideButton.click();
+    }
+    else if(e.key == 'Enter')
+    {
+        resultButton.click();
+    }
+    else if(e.key == 'Escape')
+    {
+        clearButton.click();
+    }
+    
+})
