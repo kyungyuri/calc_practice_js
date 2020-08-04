@@ -138,7 +138,7 @@ function numberAddEventListener(numberBtn, number)
             {
                 operand2 = operand2 * 10 + number;
                 calc_display.value = operand2;
-                calc_formula.innerHTML += operand2;
+                calc_formula.innerHTML += number;
             }
         }
         else
@@ -158,13 +158,33 @@ function numberAddEventListener(numberBtn, number)
             {
                 operand2 = operand2 + i;
                 calc_display.value = operand2;
-                calc_formula.innerHTML +=  operand2;
+                calc_formula.innerHTML += number;
             }
             dotHandler++;
             console.log(dotHandler);
             console.log(operand1, operand2);
         }    
+        clicked(numberBtn);
+        
     });
+}
+
+
+function clicked(Btn)
+{
+    Btn.style.backgroundColor = 'hotpink';
+    Btn.style.borderColor = 'red';
+    Btn.style.height = '92%';
+    Btn.style.width = '92%';
+    Btn.style.transitionDuration = '0.2s';
+    setTimeout(() => {
+        Btn.style.backgroundColor = 'lightgray';
+        Btn.style.borderColor = 'black';
+        Btn.style.height = '100%';
+        Btn.style.width = '100%'; 
+        Btn.style.transitionDuration = '0.3s';
+        
+    }, 100);
 }
 
 numberAddEventListener(one, 1);
@@ -235,6 +255,7 @@ dot.addEventListener('click', () => {
             calc_formula.innerHTML = operand1 + " " + operator + " "+ operand2 + ".";
         }
     }    
+    clicked(dot);
 });
 
 
@@ -245,11 +266,13 @@ plusButton.addEventListener('click', () => {
     {
         operator = "+";
         calc_formula.innerText += " + ";
+        dotHandler = 0;
     }
     else if(operand2 == null)
     {
         operator = "+";
         calc_formula.innerText = calc_formula.innerText.substring(0, calc_formula.innerText.length - 1) + " + ";
+        dotHandler = 0;
     }
     else
     {
@@ -259,10 +282,11 @@ plusButton.addEventListener('click', () => {
         operand2 = null;
         operator = "+";
         result = 0;
-        dotHandler = 0;        
+        dotHandler = 0;
         calc_display.value = operand1;
     }
     console.log(operand1, operator, operand2);
+    clicked(plusButton);
 });
 minusButton.addEventListener('click', () => {
     if(operand1 == null)
@@ -271,11 +295,13 @@ minusButton.addEventListener('click', () => {
     {
         operator = "-";
         calc_formula.innerText += " - ";
+        dotHandler = 0;
     }
     else if(operand2 == null)
     {
         operator = "-";
         calc_formula.innerText = calc_formula.innerText.substring(0, calc_formula.innerText.length - 1) + " - ";
+        dotHandler = 0;
     }
     else
     {
@@ -285,10 +311,11 @@ minusButton.addEventListener('click', () => {
         operand2 = null;
         operator = "-";
         result = 0;
-        dotHandler = 0;        
+        dotHandler = 0;
         calc_display.value = operand1;
     }
     console.log(operand1, operator, operand2);
+    clicked(minusButton);
 });
 multiplyButton.addEventListener('click', () => {
     if(operand1 == null)
@@ -297,11 +324,13 @@ multiplyButton.addEventListener('click', () => {
     {
         operator = "*";
         calc_formula.innerText += " * ";
+        dotHandler = 0;
     }
     else if(operand2 == null)
     {
         operator = "*";
         calc_formula.innerText = calc_formula.innerText.substring(0, calc_formula.innerText.length - 1) + " * ";
+        dotHandler = 0;
     }
     else
     {
@@ -311,10 +340,11 @@ multiplyButton.addEventListener('click', () => {
         operand2 = null;
         operator = "*";
         result = 0;
-        dotHandler = 0;        
+        dotHandler = 0;
         calc_display.value = operand1;
     }
     console.log(operand1, operator, operand2);
+    clicked(multiplyButton);
 });
 divideButton.addEventListener('click', () => {
     if(operand1 == null)
@@ -323,11 +353,13 @@ divideButton.addEventListener('click', () => {
     {
         operator = "/";
         calc_formula.innerText += " / ";
+        dotHandler = 0;
     }
     else if(operand2 == null)
     {
         operator = "/";
         calc_formula.innerText = calc_formula.innerText.substring(0, calc_formula.innerText.length - 1) + " / ";
+        dotHandler = 0;
     }
     else if(operand2 == 0)
     {
@@ -345,12 +377,13 @@ divideButton.addEventListener('click', () => {
         calc_display.value = operand1;
     }
     console.log(operand2);
-
+    clicked(divideButton);
 
 });
 
 function getResult()
 {
+    
     if(operator == "+")
     {
         result = operand1 + operand2;
@@ -380,92 +413,127 @@ function getResult()
     {
         alert("calculation error");
     }
+        
 }
 
 resultButton.addEventListener('click', () => {
-    getResult();
+    if((operand1 == null) || (operator == null) || (operand2 == null))
+    {
+        console.log('null');
+    }
+    else
+    {
+        getResult();
 
-    calc_formula.innerText = operand1 + " " + operator + " " + operand2 + " =";
-    calc_display.value = result;
-    initVar();
-    operand1 = result;
+        calc_formula.innerText = operand1 + " " + operator + " " + operand2 + " =";
+        calc_display.value = result;
+        initVar();
+        operand1 = result;
+        calc_display.style.backgroundColor = 'lightpink';
+    }    
+    clicked(resultButton);
 
 });
+
 clearButton.addEventListener('click', () => {
     initVar();
 
-    calc_display.value = '';
-    calc_formula.innerHTML = '';
+    calc_display.value = 'clear';
+    calc_formula.innerHTML = 'clear';
+    setTimeout(() => {
+        calc_display.value = '';
+        calc_formula.innerHTML = '';    
+    }, 300);
+    clicked(clearButton);
+    calc_display.style.backgroundColor = 'darkgray';
 })
 
 window.addEventListener('keypress', function (e){
     if(e.key == '1')
     {
         one.click();
+        console.log(e.key + " clicked");
     }
     else if(e.key == '2')
     {
         two.click();
+        console.log(e.key + " clicked");
     }
     else if(e.key == '3')
     {
         three.click();
+        console.log(e.key + " clicked");
     }
     else if(e.key == '4')
     {
         four.click();
+        console.log(e.key + " clicked");
     }
     else if(e.key == '5')
     {
         five.click();
+        console.log(e.key + " clicked");
     }
     else if(e.key == '6')
     {
         six.click();
+        console.log(e.key + " clicked");
     }
     else if(e.key == '7')
     {
         seven.click();
+        console.log(e.key + " clicked");
     }
     else if(e.key == '8')
     {
         eight.click();
+        console.log(e.key + " clicked");
     }
     else if(e.key == '9')
     {
         nine.click();
+        console.log(e.key + " clicked");
     }
     else if(e.key == '0')
     {
         zero.click();
+        console.log(e.key + " clicked");
     }
     else if(e.key == '.')
     {
         dot.click();
+        console.log(e.key + " clicked");
     }
     else if(e.key == '+')
     {
         plusButton.click();
+        console.log(e.key + " clicked");
     }
     else if(e.key == '-')
     {
         minusButton.click();
+        console.log(e.key + " clicked");
     }
     else if(e.key == '*')
     {
         multiplyButton.click();
+        console.log(e.key + " clicked");
     }
     else if(e.key == '/')
     {
         divideButton.click();
+        console.log(e.key + " clicked");
     }
     else if(e.key == 'Enter')
     {
         resultButton.click();
+        console.log(e.key + " clicked");
     }
     else if(e.key == 'Escape')
     {
         clearButton.click();
+        console.log(e.key + " clicked");
     }
     
 })
+
